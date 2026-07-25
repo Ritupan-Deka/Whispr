@@ -1,0 +1,21 @@
+{
+  "name": "whispr",
+  "version": "1.0.0",
+  "description": "Whispr is a modern, responsive web-based chat application featuring real-time communication.",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve -l 3000 .",
+    "dev": "npx serve -l 3000 ."
+  },
+  "keywords": [
+    "chat",
+    "messenger",
+    "realtime",
+    "firebase"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "serve": "^14.2.4"
+  }
+}

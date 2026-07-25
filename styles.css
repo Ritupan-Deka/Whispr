@@ -1,6 +1,8 @@
-/* ===== CSS Variables ===== */
+/* ==========================================================================
+   1. Design System & CSS Custom Properties
+   ========================================================================== */
 :root {
-  /* Discord Colors */
+  /* Theme Backgrounds */
   --bg-primary: #36393f;
   --bg-secondary: #2f3136;
   --bg-tertiary: #202225;
@@ -8,41 +10,48 @@
   --bg-modifier-active: rgba(79, 84, 92, 0.24);
   --bg-modifier-selected: rgba(79, 84, 92, 0.32);
 
-  /* Discord's brand colors */
+  /* Brand Accents */
   --accent-primary: #5865f2;
   --accent-secondary: #4752c4;
   --accent-danger: #ed4245;
 
-  /* Text colors */
+  /* Typography Colors */
   --text-primary: #ffffff;
   --text-secondary: #dcddde;
-  --text-muted: #72767d;
+  --text-muted: #a6a8ad;
   --text-link: #00aff4;
 
-  /* Border & Background */
+  /* Borders & Controls */
   --border-color: #42454a;
   --input-bg: #40444b;
   --hover-bg: #42464d;
 
-  /* Discord status colors */
+  /* Status Colors */
   --status-online: #3ba55c;
   --status-idle: #faa81a;
   --status-dnd: #ed4245;
   --status-offline: #747f8d;
 
-  /* Shadows */
-  --elevation-low: 0 1px 0 rgba(4, 4, 5, 0.2), 0 1.5px 0 rgba(6, 6, 7, 0.05),
-    0 2px 0 rgba(4, 4, 5, 0.05);
+  /* Elevation & Shadows */
+  --elevation-low: 0 1px 0 rgba(4, 4, 5, 0.2), 0 1.5px 0 rgba(6, 6, 7, 0.05);
   --elevation-medium: 0 4px 4px rgba(0, 0, 0, 0.16);
   --elevation-high: 0 8px 16px rgba(0, 0, 0, 0.24);
+
+  /* Responsive Fluid Typography */
+  --fs-large: clamp(1.25rem, 2vw + 0.5rem, 1.5rem);
+  --fs-medium: clamp(1rem, 1.5vw + 0.5rem, 1.25rem);
+  --fs-small: clamp(0.875rem, 1vw + 0.5rem, 1rem);
+  --fs-xs: clamp(0.75rem, 0.75vw + 0.5rem, 0.875rem);
 }
 
-/* Base Styles */
+/* ==========================================================================
+   2. Reset & Accessibility Utilities
+   ========================================================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "gg sans", "Noto Sans", "Helvetica Neue", sans-serif;
+  font-family: "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
@@ -59,7 +68,26 @@ img {
   height: 25px;
 }
 
-/* App Layout */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   3. Application Container & Login
+   ========================================================================== */
 #app-container {
   width: 96%;
   height: 93vh;
@@ -70,8 +98,64 @@ img {
     0 0 30px 10px rgba(88, 101, 242, 0.2), 0 0 45px 15px rgba(88, 101, 242, 0.1);
 }
 
-/* Contacts Panel */
-#contacts-container {
+#login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  max-width: 440px;
+  padding: 32px;
+  background-color: var(--bg-tertiary);
+  border-radius: 12px;
+  box-shadow: var(--elevation-high);
+}
+
+#login-container h2 {
+  font-size: var(--fs-large);
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+}
+
+#login-container input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0 16px 0;
+  background-color: var(--input-bg);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: var(--fs-small);
+  transition: border-color 0.2s ease;
+}
+
+#login-container input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+#login-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--accent-primary);
+  border: none;
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: var(--fs-medium);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#login-container button:hover {
+  background-color: var(--accent-secondary);
+}
+
+/* ==========================================================================
+   4. Contacts Side Panel
+   ========================================================================== */
+.contacts-section {
   width: 30%;
   height: 100%;
   padding: 15px;
@@ -92,7 +176,7 @@ img {
 
 #user-profile .name {
   flex: 1;
-  font-size: 16px;
+  font-size: var(--fs-medium);
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -103,47 +187,48 @@ img {
   padding: 8px;
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 #user-profile .logout-button:hover {
-  /* background-color: var(--bg-modifier-hover); */
-  transform: scale(1.1);
+  background-color: var(--bg-modifier-hover);
+  transform: scale(1.05);
 }
 
-/* Search Bar */
 #search-bar {
   width: 100%;
   padding: 8px 12px;
   margin: 8px 0;
   background-color: var(--input-bg);
-  border: none;
+  border: 1px solid transparent;
   border-radius: 4px;
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: var(--fs-small);
+  transition: border-color 0.2s ease;
 }
 
 #search-bar:focus {
   outline: none;
+  border-color: var(--accent-primary);
 }
 
-/* Contacts List */
 #contacts {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .contact {
   display: flex;
   align-items: center;
-  padding: 8px 12px;
-  border-radius: 4px;
+  padding: 10px 12px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease;
 }
 
-.contact:hover {
+.contact:hover,
+.contact:focus {
   background-color: var(--bg-modifier-hover);
 }
 
@@ -151,14 +236,15 @@ img {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
   gap: 8px;
+  width: 100%;
 }
 
 .contact .name {
-  font-size: 16px;
+  font-size: var(--fs-medium);
   font-weight: 500;
   color: var(--text-secondary);
+  flex: 1;
 }
 
 .contact .status-indicator {
@@ -172,8 +258,10 @@ img {
   background-color: var(--status-offline);
 }
 
-/* Chat Section */
-#chat-container {
+/* ==========================================================================
+   5. Chat Workspace & Stream
+   ========================================================================== */
+.chat-section {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -191,22 +279,49 @@ img {
   box-shadow: var(--elevation-low);
 }
 
-#chat-header .contact-info {
+.header-left {
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-direction: row;
   gap: 8px;
 }
 
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 #contact-name {
-  font-size: 16px;
+  font-size: var(--fs-medium);
   font-weight: 600;
+  color: var(--text-primary);
 }
 
 .contact-status {
-  font-size: 14px;
+  font-size: var(--fs-xs);
   color: var(--text-muted);
+}
+
+.contact-status.online {
+  color: var(--status-online);
+}
+
+.contact-status.offline {
+  color: var(--status-offline);
+}
+
+#chat-header .delete-button {
+  background-color: transparent;
+  border: none;
+  padding: 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+#chat-header .delete-button:hover {
+  background-color: var(--bg-modifier-hover);
+  transform: scale(1.1);
 }
 
 #chat-window {
@@ -214,25 +329,6 @@ img {
   padding: 16px;
   overflow-y: auto;
   background-color: var(--bg-primary);
-}
-
-#chat-header .delete-button {
-  background-color: transparent;
-  border: none;
-  padding: 5px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-#chat-header .delete-button:hover {
-  /* background-color: var(--accent-danger); */
-  transform: scale(1.3);
-}
-
-/* Messages */
-.message-container {
-  margin-bottom: 16px;
 }
 
 #output {
@@ -259,49 +355,54 @@ img {
   max-width: 70%;
   padding: 10px 16px;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: var(--fs-small);
   line-height: 1.4;
+  word-break: break-word;
 }
 
 .message.sent {
   background-color: var(--accent-primary);
   color: var(--text-primary);
-  align-self: flex-end;
+  border-bottom-right-radius: 2px;
 }
 
 .message.received {
   background-color: var(--bg-modifier-selected);
   color: var(--text-secondary);
+  border-bottom-left-radius: 2px;
 }
 
 .timestamp-status {
   margin-top: 4px;
-  font-size: 12px;
+  font-size: var(--fs-xs);
   color: var(--text-muted);
+  display: flex;
+  gap: 6px;
 }
 
-/* Input Area */
 #input-area {
   padding: 16px;
   background-color: var(--bg-primary);
   border-top: 1px solid var(--border-color);
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 #message {
   flex: 1;
   padding: 12px;
   background-color: var(--input-bg);
-  border: none;
+  border: 1px solid transparent;
   border-radius: 8px;
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: var(--fs-small);
+  transition: border-color 0.2s ease;
 }
 
 #message:focus {
   outline: none;
+  border-color: var(--accent-primary);
 }
 
 #send-button,
@@ -311,73 +412,47 @@ img {
   padding: 8px;
   cursor: pointer;
   border-radius: 4px;
-  transition: all 0.3s;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 #send-button:hover,
 #attachment-button:hover {
-  /* background-color: var(--bg-modifier-hover); */
+  background-color: var(--bg-modifier-hover);
   transform: scale(1.1);
 }
 
-/* Welcome Message */
 #welcome-message {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30%;
-}
-
-/* Login Container */
-#login-container {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  width: 480px;
-  padding: 32px;
-  background-color: var(--bg-tertiary);
-  border-radius: 8px;
-  box-shadow: var(--elevation-high);
+  margin-top: 20%;
+  color: var(--text-muted);
+  text-align: center;
 }
 
-#login-container h2 {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 16px;
+#welcome-message h2 {
+  font-size: var(--fs-large);
+  margin-bottom: 8px;
   color: var(--text-primary);
 }
 
-#login-container input {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  background-color: var(--input-bg);
+/* ==========================================================================
+   6. Dialog Modals & Alerts
+   ========================================================================== */
+dialog {
   border: none;
-  border-radius: 4px;
-  color: var(--text-secondary);
-  font-size: 14px;
+  background: transparent;
+  padding: 0;
+  margin: auto;
+  max-width: 90vw;
 }
 
-#login-container button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 16px;
-  background-color: var(--accent-primary);
-  border: none;
-  border-radius: 4px;
-  color: var(--text-primary);
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(3px);
 }
 
-#login-container button:hover {
-  background-color: var(--accent-secondary);
-}
-
-/* Modals */
 #custom-alert,
 #logout-alert,
 #alert-modal {
@@ -393,44 +468,55 @@ img {
   z-index: 1000;
 }
 
+dialog[open] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .alert-content {
   width: 440px;
-  padding: 20px;
+  max-width: 90vw;
+  padding: 24px;
   background-color: var(--bg-primary);
-  border-radius: 4px;
+  border-radius: 8px;
   box-shadow: var(--elevation-high);
+  border: 1px solid var(--border-color);
 }
 
 .alert-content h2 {
-  font-size: 20px;
+  font-size: var(--fs-large);
   font-weight: 600;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   color: var(--text-primary);
 }
 
 .alert-content p {
   margin-bottom: 20px;
   color: var(--text-secondary);
+  font-size: var(--fs-small);
 }
 
 .alert-content button {
-  padding: 8px 16px;
-  margin: 0 8px;
+  padding: 10px 20px;
+  margin-right: 8px;
   background-color: var(--accent-primary);
   border: none;
   border-radius: 4px;
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: var(--fs-small);
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease;
 }
 
 .alert-content button:hover {
   background-color: var(--accent-secondary);
 }
 
-/* Scrollbar */
+/* ==========================================================================
+   7. Scrollbars & Responsive Breakpoints
+   ========================================================================== */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -448,203 +534,13 @@ img {
   background-color: var(--bg-modifier-selected);
 }
 
-/* Media Queries for Responsiveness */
-
-/* Base responsive font sizes using clamp */
-:root {
-  --fs-large: clamp(1.25rem, 2vw + 0.5rem, 1.5rem); /* 20-24px */
-  --fs-medium: clamp(1rem, 1.5vw + 0.5rem, 1.25rem); /* 16-20px */
-  --fs-small: clamp(0.875rem, 1vw + 0.5rem, 1rem); /* 14-16px */
-  --fs-xs: clamp(0.75rem, 0.75vw + 0.5rem, 0.875rem); /* 12-14px */
-}
-
-/* Update font sizes to use responsive units */
-#user-profile .name {
-  font-size: var(--fs-medium);
-}
-.contact .name {
-  font-size: var(--fs-medium);
-}
-#contact-name {
-  font-size: var(--fs-medium);
-}
-.status {
-  font-size: var(--fs-small);
-}
-.message {
-  font-size: var(--fs-small);
-}
-.timestamp-status {
-  font-size: var(--fs-xs);
-}
-#message {
-  font-size: var(--fs-small);
-}
-.alert-content h2 {
-  font-size: var(--fs-large);
-}
-.alert-content p {
-  font-size: var(--fs-small);
-}
-.alert-content button {
-  font-size: var(--fs-small);
-}
-
-/* Tablet screens */
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-  #contacts-container {
-    width: 280px;
-  }
-
-  #chat-container {
-    width: calc(100% - 280px);
-  }
-
-  #input-area {
-    padding: 14px;
-    gap: 12px;
-  }
-
-  #message {
-    padding: 10px;
-  }
-
-  #login-container {
-    width: 420px;
-  }
-
-  .alert-content {
-    width: 400px;
-    padding: 18px;
-  }
-
-  .message {
-    max-width: 75%;
-  }
-}
-
-/* Mobile screens */
-@media screen and (max-width: 768px) {
-  #app-container {
-    flex-direction: column;
-  }
-
-  #contacts-container {
-    width: 100%;
-    height: 30%;
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  #chat-container {
-    height: 70%;
-  }
-
-  .message {
-    max-width: 85%;
-  }
-
-  #login-container {
-    width: 90%;
-    max-width: 480px;
-  }
-}
-
-/* Small mobile screens */
-@media screen and (max-width: 480px) {
-  #input-area {
-    padding: 12px;
-    gap: 8px;
-  }
-
-  #message {
-    padding: 8px;
-  }
-
-  .alert-content {
-    width: 90%;
-    padding: 16px;
-  }
-
-  .alert-content button {
-    padding: 6px 12px;
-    margin: 0 4px;
-  }
-}
-
-/* Height-based media query for very short screens
-@media screen and (max-height: 600px) {
-  #contacts-container {
-    height: 100%;
-  }
-
-  #chat-container {
-    height: 100%;
-  }
-} */
-
-@media (max-width: 767px) {
-  .hidden-mobile {
-    display: none !important;
-  }
-
-  .contacts-section,
-  .chat-section {
-    width: 100% !important;
-  }
-
-  .back-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: none;
-    border: none;
-    color: inherit;
-    padding: 8px;
-    cursor: pointer;
-    margin-right: 10px;
-  }
-
-  .back-button svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  #chat-header {
-    display: flex;
-    align-items: center;
-  }
-}
-
-@media (min-width: 768px) {
-  .back-button {
-    display: none;
-  }
-}
-
-/* Update/add these CSS rules */
-.contacts-section {
-  width: 30%;
-  height: 100%;
-  padding: 15px;
-  background-color: var(--bg-secondary);
-  border-right: 1px solid var(--border-color);
-  overflow-y: auto;
-}
-
-.chat-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--bg-primary);
-}
-
-/* Update mobile styles */
 @media screen and (max-width: 767px) {
   #app-container {
     flex-direction: column;
     position: relative;
     height: 100vh;
+    width: 100%;
+    border-radius: 0;
   }
 
   .contacts-section,
@@ -665,6 +561,10 @@ img {
     transform: translateX(100%);
   }
 
+  .message {
+    max-width: 85%;
+  }
+
   .back-button {
     display: inline-flex;
     align-items: center;
@@ -674,21 +574,16 @@ img {
     color: var(--text-primary);
     padding: 8px;
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 8px;
   }
 
   .back-button svg {
     width: 24px;
     height: 24px;
   }
-
-  #chat-header {
-    display: flex;
-    align-items: center;
-  }
 }
 
-@media (min-width: 768px) {
+@media screen and (min-width: 768px) {
   .back-button {
     display: none;
   }
@@ -696,58 +591,5 @@ img {
   .contacts-section,
   .chat-section {
     transform: none !important;
-  }
-}
-
-/* Add/update these styles */
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.contact-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-#contact-name {
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.contact-status {
-  font-size: var(--fs-xs);
-  color: var(--text-muted);
-}
-
-.contact-status.online {
-  color: var(--status-online);
-}
-
-.contact-status.offline {
-  color: var(--status-offline);
-}
-
-#chat-header {
-  height: 60px;
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--bg-primary);
-  border-bottom: 1px solid var(--border-color);
-  box-shadow: var(--elevation-low);
-}
-
-/* Update mobile styles */
-@media screen and (max-width: 767px) {
-  .header-left {
-    flex: 1;
-  }
-
-  .contact-info {
-    flex: 1;
   }
 }

@@ -4,88 +4,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messenger</title>
+    <meta name="description" content="Whispr is a modern, responsive web messenger application featuring real-time chat, media sharing, and online status indicators.">
+    <meta name="theme-color" content="#5865f2">
+    <meta property="og:title" content="Whispr - Real-Time Web Messenger">
+    <meta property="og:description" content="Connect and chat in real-time with Whispr's sleek, responsive messaging app.">
+    <meta property="og:type" content="website">
+    <title>Whispr - Real-Time Web Messenger</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235865f2'><path d='M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z'/></svg>">
     <link rel="stylesheet" href="styles.css">
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="script.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <div id="login-container">
+    <h1 class="sr-only">Whispr - Real-Time Web Messenger</h1>
+    <main id="login-container">
         <h2>Get Started</h2>
-        <input id="username" type="text" placeholder="Enter your name" autofocus>
-        <button id="login" onclick="login()">Login</button>
-    </div>
+        <label for="username" class="sr-only">Enter your name</label>
+        <input id="username" type="text" placeholder="Enter your name" autofocus aria-label="Enter your name" autocomplete="username">
+        <button id="login" type="button">Login</button>
+    </main>
 
     <div id="app-container" style="display: none;">
-        <div class="contacts-section">
-            <div id="user-profile">
+        <aside class="contacts-section" aria-label="Contacts Navigation">
+            <nav id="user-profile" aria-label="User Profile">
                 <div class="name">User Name</div>
-                <button class="logout-button" onclick="showLogoutConfirmation()">
-                    <img src="images/logoutW.png" alt="Logout">
+                <button id="logout-button" class="logout-button" type="button" aria-label="Logout">
+                    <img src="images/logoutW.png" alt="" width="24" height="24">
                 </button>
+            </nav>
+            <label for="search-bar" class="sr-only">Search conversations</label>
+            <input id="search-bar" type="search" placeholder="Search conversations..." aria-label="Search conversations">
+            <div id="contacts" role="list" aria-label="Conversations List">
+                <!-- Dynamic contacts populated by JavaScript -->
             </div>
-            <input id="search-bar" type="text" placeholder="Search conversations...">
-            <div id="contacts">
-                <!-- Contact list items will be dynamically generated here -->
-            </div>
-        </div>
+        </aside>
 
-        <div class="chat-section">
+        <main class="chat-section">
             <header id="chat-header" style="display: none;">
-                <!-- Chat header content will be dynamically updated -->
+                <!-- Dynamic chat header populated by JavaScript -->
             </header>
-            <div id="chat-window">
-                <div id="output">
+            <section id="chat-window" aria-label="Message Stream">
+                <div id="output" role="log" aria-live="polite">
                     <div id="welcome-message">
-                        <h2>Welcome to Messenger App</h2>
+                        <h2>Welcome to Whispr</h2>
                         <p>Select a contact to start chatting.</p>
                     </div>
                 </div>
                 <div id="feedback"></div>
-            </div>
-            <div id="input-area" style="display: none;">
-                <button id="attachment-button" onclick="document.getElementById('media').click()">
-                    <img src="images/attachmentW.png" alt="Attachment">
+            </section>
+            <footer id="input-area" style="display: none;">
+                <button id="attachment-button" type="button" aria-label="Attach file or image">
+                    <img src="images/attachmentW.png" alt="" width="24" height="24">
                 </button>
-                <input type="file" id="media" style="display: none;" onchange="sendMedia()">
-                <input id="message" type="text" placeholder="Type a message...">
-                <button id="send-button" onclick="sendMessage()">
-                    <img src="images/sendW.png" alt="Send">
+                <input type="file" id="media" style="display: none;" aria-label="Upload media file" accept="image/*">
+                <label for="message" class="sr-only">Type a message</label>
+                <input id="message" type="text" placeholder="Type a message..." aria-label="Type a message">
+                <button id="send-button" type="button" aria-label="Send message">
+                    <img src="images/sendW.png" alt="" width="24" height="24">
                 </button>
-            </div>
-        </div>
+            </footer>
+        </main>
     </div>
 
     <!-- Delete Chat History Modal -->
-    <div id="custom-alert">
+    <dialog id="custom-alert" aria-labelledby="delete-chat-title">
         <div class="alert-content">
-            <h2>Delete Chat</h2>
+            <h2 id="delete-chat-title">Delete Chat</h2>
             <p>Are you sure you want to delete the chat history?</p>
-            <button onclick="confirmDeleteChat()">Yes</button>
-            <button onclick="closeDeleteConfirmation()">No</button>
+            <button id="confirm-delete-chat" type="button">Yes</button>
+            <button id="cancel-delete-chat" type="button">No</button>
         </div>
-    </div>
+    </dialog>
 
     <!-- Logout Confirmation Modal -->
-    <div id="logout-alert">
+    <dialog id="logout-alert" aria-labelledby="logout-title">
         <div class="alert-content">
-            <h2>Logout</h2>
+            <h2 id="logout-title">Logout</h2>
             <p>Are you sure you want to logout?</p>
-            <button onclick="confirmLogout()">Yes</button>
-            <button onclick="closeLogoutConfirmation()">No</button>
+            <button id="confirm-logout" type="button">Yes</button>
+            <button id="cancel-logout" type="button">No</button>
         </div>
-    </div>
+    </dialog>
 
     <!-- Alert Modal -->
-    <div id="alert-modal" style="display: none;">
+    <dialog id="alert-modal" aria-labelledby="alert-message">
         <div class="alert-content">
             <p id="alert-message"></p>
-            <button id="alert-ok-button">OK</button>
+            <button id="alert-ok-button" type="button">OK</button>
         </div>
-    </div>
+    </dialog>
 
 </body>
 
