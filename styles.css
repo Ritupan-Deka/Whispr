@@ -462,13 +462,19 @@ dialog::backdrop {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.85);
-  display: none;
-  justify-content: center;
-  align-items: center;
   z-index: 1000;
 }
 
-dialog[open] {
+#custom-alert:not([open]),
+#logout-alert:not([open]),
+#alert-modal:not([open]) {
+  display: none;
+}
+
+dialog[open],
+#custom-alert[open],
+#logout-alert[open],
+#alert-modal[open] {
   display: flex;
   justify-content: center;
   align-items: center;
