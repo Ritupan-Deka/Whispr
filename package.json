@@ -2,20 +2,29 @@
   "name": "whispr",
   "version": "1.0.0",
   "description": "Whispr is a modern, responsive web-based chat application featuring real-time communication.",
+  "type": "module",
   "main": "index.html",
   "scripts": {
-    "start": "npx serve -l 3000 .",
-    "dev": "npx serve -l 3000 ."
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "vite"
   },
   "keywords": [
     "chat",
     "messenger",
     "realtime",
-    "firebase"
+    "firebase",
+    "vite"
   ],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "serve": "^14.2.4"
+    "firebase": "^10.12.0",
+    "lucide": "^1.52.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0",
+    "vite": "^5.2.0"
   }
 }

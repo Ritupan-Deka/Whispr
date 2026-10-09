@@ -1,12 +1,34 @@
 {
   "rules": {
     "users": {
-      ".read": true,
-      ".write": true
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && (auth.uid === $uid || !data.exists())",
+        ".validate": "newData.hasChildren(['name', 'status'])",
+        "name": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 50"
+        },
+        "status": {
+          ".validate": "newData.isString()"
+        }
+      }
     },
     "chats": {
-      ".read": true,
-      ".write": true
+      "$chatId": {
+        ".read": "auth != null && ($chatId.contains(auth.uid) || data.child('participants/' + auth.uid).exists())",
+        ".write": "auth != null && ($chatId.contains(auth.uid) || data.child('participants/' + auth.uid).exists() || !data.exists())",
+        "messages": {
+          "$messageId": {
+            ".write": "auth != null && (newData.child('senderUid').val() === auth.uid || !newData.exists())",
+            ".validate": "!newData.exists() || newData.hasChildren(['senderUid', 'timestamp', 'message'])"
+          }
+        },
+        "typing": {
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid"
+          }
+        }
+      }
     }
   }
 }
